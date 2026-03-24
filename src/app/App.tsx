@@ -1,15 +1,13 @@
-import Header from '../widgets/header/ui/Header';
-import ProductList from '../widgets/product-list/ui/ProductList';
-import CartSidebar from '../widgets/cart-sidebar/ui/CartSidebar';
+import Header from "../widgets/header/ui/Header";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <div className="app-container">
       <Header />
       <main className="main-content">
-        <ProductList />
+        <Outlet />
       </main>
-      <CartSidebar />
     </div>
   );
 }
