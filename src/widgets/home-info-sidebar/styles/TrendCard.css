@@ -1,0 +1,88 @@
+.trending-countries-section {
+    background: var(--white);
+    border: 1px solid var(--accent-camel-hover);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.section-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--dark-grey);
+    text-transform: uppercase;
+}
+
+.trending-countries-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.trending-country-item {
+    display: grid;
+    grid-template-columns: 30px 1fr 40px;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background-color: var(--grey);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.trending-country-item:hover {
+    transform: translateX(4px);
+}
+
+.country-rank {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-align: center;
+}
+
+.country-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.country-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.country-region {
+    font-size: 0.75rem;
+    color: #888;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.country-score {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-align: right;
+}
+
+.loading-text,
+.no-countries {
+    font-size: 0.85rem;
+    color: #999;
+    text-align: center;
+    padding: 1rem 0;
+}

@@ -1,0 +1,61 @@
+.trip-list {
+    padding: 1rem;
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 12px;
+}
+
+.trip-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+}
+
+.trip-list-header h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #666;
+    background: none;
+    border: 1px solid #eee;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-text:hover {
+    border-color: #7bcb29;
+    color: #7bcb29;
+    background: #f0f7e6;
+}
+
+.btn-primary {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white;
+    background-color: #111;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+    opacity: 0.8;
+}

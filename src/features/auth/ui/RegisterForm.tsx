@@ -1,6 +1,6 @@
 import { useRegister } from "@/features/auth/model/useRegister";
 import { registrationData } from "@/entities/user/model/registration-schema";
-import FormField from "./FormField";
+import FormField from "../../../shared/components/ui/FormField.tsx";
 import AuthLayout from "./AuthLayout";
 
 export default function RegisterForm() {
