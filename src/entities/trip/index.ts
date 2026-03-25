@@ -1,0 +1,1 @@
+export { default as TripCard } from '@/entities/trip/ui/TripCard.tsx';
