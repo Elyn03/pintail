@@ -1,6 +1,6 @@
 import { useLogin } from "@/features/auth/model/useLogin";
 import { loginSchema } from "@/entities/user/model/login-schema";
-import FormField from "./FormField";
+import FormField from "../../../shared/components/ui/FormField.tsx";
 import AuthLayout from "./AuthLayout";
 
 export default function LoginForm() {

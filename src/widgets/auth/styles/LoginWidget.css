@@ -43,43 +43,6 @@
   gap: 1.5rem;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-group label {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  display: block;
-  padding-left: 16px;
-}
-
-.form-group input {
-  padding: 0.85rem 1rem;
-  border: 1.5px solid var(--secondary-color);
-  border-radius: 50px;
-  font-size: 0.95rem;
-  color: var(--primary-color);
-  background-color: var(--white);
-  transition: all 0.3s ease;
-  font-family: inherit;
-}
-
-.form-group input::placeholder {
-  color: var(--primary-color);
-  opacity: 0.5;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--accent-gold-color);
-  box-shadow: 0 0 0 3px rgba(241, 193, 102, 0.15);
-  background-color: var(--grey);
-}
-
 /* Form Options */
 .form-options {
   display: flex;
@@ -117,27 +80,22 @@
 
 /* Login Button */
 .login-button {
-  padding: 0.95rem 1.5rem;
-  background-color: var(--primary-color);
+  padding: 0.5rem 1rem;
   color: var(--white);
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
 }
 
 .login-button:hover:not(:disabled) {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(84, 41, 22, 0.25);
+  color: var(--primary-color);
+  background-color: var(--white);
 }
 
 .login-button:active:not(:disabled) {
   background-color: var(--primary-active);
-  transform: translateY(0);
 }
 
 .login-button:disabled {

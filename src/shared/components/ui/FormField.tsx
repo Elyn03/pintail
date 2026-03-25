@@ -1,8 +1,10 @@
+import "../styles/FormField.css"
+
 interface FormFieldProps {
   id: string;
   name: string;
   label: string;
-  type?: "text" | "email" | "password";
+  type?: "text" | "email" | "password" | "number" | "date";
   placeholder?: string;
   required?: boolean;
   error?: string;
