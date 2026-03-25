@@ -5,9 +5,7 @@ function App() {
   return (
     <div className="app-container">
       <Header />
-      <main className="main-content">
-        <Outlet />
-      </main>
+      <Outlet />
     </div>
   );
 }
