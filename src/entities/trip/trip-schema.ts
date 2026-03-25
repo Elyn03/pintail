@@ -15,7 +15,7 @@ export const tripData = z
   })
   .refine((data) => new Date(data.end_date) > new Date(data.start_date), {
     message: "End date must be after start date",
-    path: ["endDate"]
+    path: ["end_date"]
   });
 
 export type TripDto = z.infer<typeof tripData>;

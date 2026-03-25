@@ -1,1 +1,0 @@
-export { default as ProductCard } from './ui/TripCard.tsx';

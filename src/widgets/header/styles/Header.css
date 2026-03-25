@@ -32,30 +32,30 @@
     padding: 0.5rem 1.5rem;
     border-radius: 8px;
     transition: all 0.2s ease;
+}
 
-    &.logo {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+.nav-link.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-        img {
-            height: 40px;
-            width: 40px;
-        };
+.nav-link img {
+    height: 40px;
+    width: 40px;
+}
 
-        &:hover {
-            background-color: transparent;
-            color: var(--primary-hover);
-        }
-    }
+.nav-link:hover {
+    background-color: transparent;
+    color: var(--primary-hover);
+}
 
-    &:hover {
-        background-color: var(--grey);
-        color: var(--primary-hover);
-    }
+.nav-link:hover {
+    background-color: var(--grey);
+    color: var(--primary-hover);
+}
 
-    &.active {
-        background-color: var(--primary-active);
-        color: var(--white);
-    }
+.nav-link.active {
+    background-color: var(--primary-active);
+    color: var(--white);
 }

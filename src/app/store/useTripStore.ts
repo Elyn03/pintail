@@ -4,7 +4,7 @@ import type {TripDto} from "@/entities/trip/trip-schema.ts";
 interface TripState {
   trips: TripDto[];
   addTrip: (item: TripDto) => void;
-  deleteTrip: (id: string) => void;
+  deleteTrip: (id: TripDto["id"]) => void;
 }
 
 export const useTripStore = create<TripState>((set) => ({
@@ -14,7 +14,7 @@ export const useTripStore = create<TripState>((set) => ({
       trips: [...state.trips, trip],
     })),
 
-  deleteTrip: (id) =>
+  deleteTrip: (id: TripDto["id"]) =>
     set((state) => ({
       trips: state.trips.filter((i) => i.id !== id),
     })),

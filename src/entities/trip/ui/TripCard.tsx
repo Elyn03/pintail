@@ -1,12 +1,12 @@
-import "../styles/TripCard.css";
-import type { Product } from '../types';
+import "@/entities/trip/styles/TripCard.css";
+import type { Trip } from '../types.ts';
 interface ProductCardProps {
-  product: Product;
+  product: Trip;
 }
 
 export default function TripCard({ product }: ProductCardProps) {
   return (
-    <article className="product-card">
+    <article className="trip-card">
       <div className="card-content">
         <h3 className="card-title">{product.name}</h3>
         <p className="card-dates">{product.name}</p>

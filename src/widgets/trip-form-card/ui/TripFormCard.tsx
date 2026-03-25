@@ -1,9 +1,8 @@
-'use client';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FormField from "@/shared/components/ui/FormField.tsx";
-import { useCreateTrip } from "@/shared/api/queries";
-import { useAuthStore } from "@/app/store/useUserStore";
+import { useCreateTrip } from "@/shared/api/queries.ts";
+import { useAuthStore } from "@/app/store/useUserStore.ts";
 
 export default function TripFormCard() {
   const navigate = useNavigate();
@@ -45,8 +44,8 @@ export default function TripFormCard() {
         description: formData.description,
         start_date: formData.start_date,
         end_date: formData.end_date,
-        budget_target: parseFloat(formData.budget_target),
-        budget_max: parseFloat(formData.budget_max),
+        budget_target: parseFloat(formData.budget_target) || 0,
+        budget_max: parseFloat(formData.budget_max) || 0,
         user_id: session.user.id,
         expenses: 0,
       });
@@ -131,7 +130,6 @@ export default function TripFormCard() {
               placeholder="600"
               value={formData.budget_target}
               onChange={handleInputChange}
-              required
             />
 
             <FormField
@@ -142,7 +140,6 @@ export default function TripFormCard() {
               placeholder="1000"
               value={formData.budget_max}
               onChange={handleInputChange}
-              required
             />
           </div>
         </div>

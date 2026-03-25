@@ -1,3 +1,1 @@
-import TripForm from "@/pages/TripForm/ui/TripForm.tsx";
-
-export default TripForm;
+export { default as TripForm } from "./ui/TripForm";

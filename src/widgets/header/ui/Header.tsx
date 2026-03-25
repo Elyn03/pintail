@@ -13,7 +13,7 @@ export default function Header() {
     <header className="header">
       <div className="header-container">
         <Link to="/" className={"nav-link logo"}>
-          <img src={logo_pintail} alt=""/>
+          <img src={logo_pintail} alt="logo_pintail"/>
           <h1>Plan you journey like a duck</h1>
         </Link>
 

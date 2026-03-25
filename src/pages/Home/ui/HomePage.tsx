@@ -1,5 +1,5 @@
 import "../styles/HomePage.css";
-import TripList from "../../../widgets/product-list/styles/TripList.tsx";
+import TripList from "@/widgets/trip-list/styles/TripList.tsx";
 import HomeInfoWidget from "@/widgets/home-info-sidebar";
 
 export default function HomePage() {

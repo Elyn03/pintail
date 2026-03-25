@@ -5,7 +5,7 @@ import App from "./App";
 import LoginPage from "../pages/Login/ui/LoginPage";
 import { RegisterPage } from "@/pages/Login/ui/RegisterPage";
 import TripPage from "../pages/TripPage.tsx";
-import TripForm from "@/pages/TripForm";
+import {TripForm} from "@/pages/TripForm";
 
 export const router = createBrowserRouter([
   {

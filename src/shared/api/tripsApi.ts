@@ -19,7 +19,7 @@ export const getUserTrips = async (userId: string): Promise<TripDto[]> => {
   const { data, error } = await supabase
     .from('Trip')
     .select('*')
-    .eq('userId', userId)
+    .eq('user_id', userId)
     .order('created_at', { ascending: false });
 
   if (error) {
