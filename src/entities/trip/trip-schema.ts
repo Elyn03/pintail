@@ -2,22 +2,18 @@ import {z} from "zod";
 
 export const tripData = z
   .object({
-    id: z.string().uuid(),
+    id: z.number(),
     created_at: z.string().datetime(),
     title: z.string(),
     description: z.string(),
-    startDate: z.string(),
-    endDate: z.string(),
-    budgetTarget: z.number(),
-    budgetMax: z.number(),
-    userId: z.string(),
-    steps: z.array(z.object({
-      title: z.string(),
-      description: z.string()
-    })),
-    expenses: z.number()
+    start_date: z.string(),
+    end_date: z.string(),
+    budget_target: z.number(),
+    budget_max: z.number(),
+    user_id: z.string().uuid(),
+    expenses: z.number(),
   })
-  .refine((data) => new Date(data.endDate) > new Date(data.startDate), {
+  .refine((data) => new Date(data.end_date) > new Date(data.start_date), {
     message: "End date must be after start date",
     path: ["endDate"]
   });

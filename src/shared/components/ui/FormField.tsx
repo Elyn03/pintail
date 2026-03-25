@@ -8,6 +8,8 @@ interface FormFieldProps {
   placeholder?: string;
   required?: boolean;
   error?: string;
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 export default function FormField({
@@ -18,6 +20,8 @@ export default function FormField({
   placeholder = "",
   required = false,
   error,
+  value,
+  onChange,
 }: FormFieldProps) {
   return (
     <div className="form-group">
@@ -28,6 +32,8 @@ export default function FormField({
         name={name}
         placeholder={placeholder}
         required={required}
+        value={value}
+        onChange={onChange}
       />
       {error && <span className="error-message">{error}</span>}
     </div>

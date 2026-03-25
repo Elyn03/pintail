@@ -1,15 +1,62 @@
-
+'use client';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FormField from "@/shared/components/ui/FormField.tsx";
+import { useCreateTrip } from "@/shared/api/queries";
+import { useAuthStore } from "@/app/store/useUserStore";
 
 export default function TripFormCard() {
+  const navigate = useNavigate();
+  const { session } = useAuthStore();
+  const createTripMutation = useCreateTrip();
 
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    start_date: '',
+    end_date: '',
+    budget_target: '',
+    budget_max: '',
+  });
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [error, setError] = useState<string | null>(null);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.currentTarget;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
 
+    if (!session?.user?.id) {
+      setError('You must be logged in to create a trip');
+      navigate('/login');
+      return;
+    }
 
+    try {
+      const newTrip = await createTripMutation.mutateAsync({
+        title: formData.title,
+        description: formData.description,
+        start_date: formData.start_date,
+        end_date: formData.end_date,
+        budget_target: parseFloat(formData.budget_target),
+        budget_max: parseFloat(formData.budget_max),
+        user_id: session.user.id,
+        expenses: 0,
+      });
 
-    console.log(e)
+      navigate(`/trip/${newTrip.id}`);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to create trip';
+      setError(errorMessage);
+      console.error('Error creating trip:', err);
+    }
   };
 
   return (
@@ -19,6 +66,19 @@ export default function TripFormCard() {
         <p>Fill out the details below to plan your next adventure.</p>
       </div>
 
+      {error && (
+        <div className="error-message" style={{
+          padding: '1rem',
+          marginBottom: '1rem',
+          backgroundColor: '#fee',
+          border: '1px solid #fcc',
+          borderRadius: '8px',
+          color: '#c33'
+        }}>
+          {error}
+        </div>
+      )}
+
       <form className="form-trip" onSubmit={handleSubmit}>
         <FormField
           id="title"
@@ -26,6 +86,8 @@ export default function TripFormCard() {
           label="Titre du voyage"
           type="text"
           placeholder="Ex: Girl's trip to Paris"
+          value={formData.title}
+          onChange={handleInputChange}
           required
         />
 
@@ -35,6 +97,8 @@ export default function TripFormCard() {
           label="Description"
           type="text"
           placeholder="Quelles sont vos attentes pour ce voyage ?"
+          value={formData.description}
+          onChange={handleInputChange}
           required
         />
 
@@ -42,18 +106,22 @@ export default function TripFormCard() {
           <h2 className="section-title">Dates</h2>
           <div className="form-grid-2">
             <FormField
-              id="startDate"
-              name="startDate"
+              id="start_date"
+              name="start_date"
               label="Date de départ"
               type="date"
+              value={formData.start_date}
+              onChange={handleInputChange}
               required
             />
 
             <FormField
-              id="endDate"
-              name="endDate"
+              id="end_date"
+              name="end_date"
               label="Date de retour"
               type="date"
+              value={formData.end_date}
+              onChange={handleInputChange}
               required
             />
           </div>
@@ -63,31 +131,43 @@ export default function TripFormCard() {
           <h2 className="section-title">Budget</h2>
           <div className="form-grid-2">
             <FormField
-              id="budgetTarget"
-              name="budgetTarget"
+              id="budget_target"
+              name="budget_target"
               label="Budget cible (€)"
               type="number"
               placeholder="600"
+              value={formData.budget_target}
+              onChange={handleInputChange}
               required
             />
 
             <FormField
-              id="budgetMax"
-              name="budgetMax"
+              id="budget_max"
+              name="budget_max"
               label="Budget max (€)"
               type="number"
               placeholder="1000"
+              value={formData.budget_max}
+              onChange={handleInputChange}
               required
             />
           </div>
         </div>
 
         <div className="form-actions">
-          <button type="button" className="login-button">
+          <button
+            type="button"
+            className="login-button"
+            onClick={() => navigate(-1)}
+          >
             Cancel
           </button>
-          <button type="submit" className="login-button">
-            Create Trip
+          <button
+            type="submit"
+            className="login-button"
+            disabled={createTripMutation.isPending}
+          >
+            {createTripMutation.isPending ? 'Creating...' : 'Create Trip'}
           </button>
         </div>
       </form>
