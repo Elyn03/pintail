@@ -67,14 +67,7 @@ export default function TripFormCard() {
       </div>
 
       {error && (
-        <div className="error-message" style={{
-          padding: '1rem',
-          marginBottom: '1rem',
-          backgroundColor: '#fee',
-          border: '1px solid #fcc',
-          borderRadius: '8px',
-          color: '#c33'
-        }}>
+        <div className="error-message">
           {error}
         </div>
       )}
@@ -96,7 +89,7 @@ export default function TripFormCard() {
           name="description"
           label="Description"
           type="text"
-          placeholder="Quelles sont vos attentes pour ce voyage ?"
+          placeholder="Vacation"
           value={formData.description}
           onChange={handleInputChange}
           required
@@ -108,7 +101,7 @@ export default function TripFormCard() {
             <FormField
               id="start_date"
               name="start_date"
-              label="Date de départ"
+              label="Departure date"
               type="date"
               value={formData.start_date}
               onChange={handleInputChange}
@@ -118,7 +111,7 @@ export default function TripFormCard() {
             <FormField
               id="end_date"
               name="end_date"
-              label="Date de retour"
+              label="Return date"
               type="date"
               value={formData.end_date}
               onChange={handleInputChange}
@@ -133,7 +126,7 @@ export default function TripFormCard() {
             <FormField
               id="budget_target"
               name="budget_target"
-              label="Budget cible (€)"
+              label="Budget target (€)"
               type="number"
               placeholder="600"
               value={formData.budget_target}
