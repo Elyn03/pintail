@@ -1,1 +1,1 @@
-export { default as CartSidebar } from './ui/CartSidebar';
+export { default as NewTripForm } from './ui/TripFormCard.tsx';
