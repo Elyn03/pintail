@@ -89,7 +89,7 @@
 .day {
   aspect-ratio: 1;
   display: flex;
-  padding: 8px;
+  /* padding: 8px; */
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
@@ -132,4 +132,58 @@
 .day-other:hover {
   background: transparent;
   border-color: transparent;
+}
+/* Styles pour l'affichage des trips */
+.day {
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.day-number {
+  margin: 8px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.day-trips {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.trip-tag {
+  font-size: 11px;
+  padding: 2px 4px;
+  background: var(--secondary-color);
+  color: var(--white);
+  border-radius: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.day-current .trip-tag {
+  background: var(--accent-camel-color);
+}
+
+.day-today .trip-tag {
+  background: var(--accent-gold-color);
+  color: var(--primary-color);
+}
+.create-trip-btn {
+  background: var(--secondary-color);
+  color: var(--white);
+  border-color: var(--secondary-color);
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.create-trip-btn:hover {
+  background: var(--secondary-active);
+  border-color: var(--secondary-active);
+  color: var(--white);
 }
