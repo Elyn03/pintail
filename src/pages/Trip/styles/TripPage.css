@@ -1,0 +1,186 @@
+.trip-page {
+    margin: 0 auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.trip-page-header {
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.trip-page-title {
+    padding: 0 24px;
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.trip-page-title h1 {
+    color: var(--primary-color);
+}
+
+.trip-page-badge {
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.18rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    background: var(--accent-gold-hover);
+}
+
+.trip-bento-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.trip-bento-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--white);
+
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.trip-bento-main {
+    grid-row: span 2;
+}
+
+.trip-bento-budget {
+    align-self: flex-start;
+}
+
+.trip-bento-dates {
+    align-self: stretch;
+}
+
+.trip-bento-notes {
+    grid-column: span 2;
+}
+
+.trip-bento-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trip-bento-header h2 {
+    margin: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+}
+
+.trip-main-description {
+    margin: 0.1rem 0 0.4rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.trip-main-meta {
+    display: flex;
+    gap: 1.8rem;
+    flex-wrap: wrap;
+    margin-top: 0.2rem;
+}
+
+.trip-label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 0.12rem;
+}
+
+.trip-value {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+
+.trip-budget-amount {
+    margin: 0.15rem 0 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+.trip-budget-breakdown {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1rem;
+}
+
+.trip-dates-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.2rem;
+}
+
+.trip-date-field {
+    flex: 1;
+}
+
+.trip-input {
+    width: 100%;
+    border-radius: 10px;
+    border: 1.5px solid var(--accent-gold-hover);
+    background: var(--white);
+    padding: 0.45rem 0.6rem;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.trip-notes-input {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    border-radius: 12px;
+    border: none;
+    background: var(--accent-gold-hover);
+    color: var(--primary-color);
+    padding: 0.6rem 0.7rem;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+
+@media (max-width: 900px) {
+    .trip-bento-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .trip-bento-main {
+        grid-row: auto;
+    }
+
+    .trip-bento-notes {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 600px) {
+    .trip-page {
+        padding-inline: 1rem;
+    }
+
+    .trip-page-title {
+        font-size: 1.3rem;
+    }
+}
