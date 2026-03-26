@@ -4,7 +4,7 @@ import type { Session, User } from "@supabase/supabase-js";
 // Selectors
 export const useUserId = () => useAuthStore((state) => state.user?.id);
 export const useUser = () => useAuthStore((state) => state.user);
-export const useSession = () => useAuthStore((state) => state.session);
+export const useSession = () => useAuthStore((state) => state.session!);
 export const useIsAuthLoading = () => useAuthStore((state) => state.isLoading);
 
 type AuthState = {
@@ -32,3 +32,4 @@ export const useAuthStore = create<AuthState>((set) => ({
     }),
   setLoading: (loading) => set({ isLoading: loading }),
 }));
+

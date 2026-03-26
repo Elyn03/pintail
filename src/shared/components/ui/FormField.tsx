@@ -3,7 +3,7 @@ import "../styles/FormField.css"
 interface FormFieldProps {
   id: string;
   name: string;
-  label: string;
+  label?: string;
   type?: "text" | "email" | "password" | "number" | "date";
   placeholder?: string;
   required?: boolean;
@@ -25,7 +25,7 @@ export default function FormField({
 }: FormFieldProps) {
   return (
     <div className="form-group">
-      <label htmlFor={id}>{label}</label>
+      {label && <label htmlFor={id}>{label}</label>}
       <input
         type={type}
         id={id}
