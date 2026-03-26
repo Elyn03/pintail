@@ -8,7 +8,6 @@ import Modal from "@/shared/components/ui/Modal";
 import SimpleTripForm from "@/widgets/trip-form-card/ui/SimpleTripForm";
 import { useGetUserTrips } from "@/shared/api/queries";
 import { useUserId, useIsAuthLoading } from "@/app/store/useUserStore";
-import { ErrorBoundary } from "react-error-boundary";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTHS = [
