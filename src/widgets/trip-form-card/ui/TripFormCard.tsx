@@ -51,7 +51,6 @@ export default function TripFormCard() {
         end_date: formData.end_date,
         budget_target: parseFloat(formData.budget_target) || 0,
         budget_max: parseFloat(formData.budget_max) || 0,
-        user_id: session.user.id,
         expenses: 0,
       });
 
