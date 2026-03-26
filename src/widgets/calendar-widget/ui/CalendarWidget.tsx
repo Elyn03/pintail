@@ -26,6 +26,10 @@ const MONTHS = [
   "December",
 ];
 
+// Generate a consistent local date key (YYYY-MM-DD) using local timezone
+const getLocalDateKey = (date: Date): string =>
+  date.toLocaleDateString("fr-FR");
+
 export default function CalendarWidget() {
   const userId = useUserId();
   const isLoading = useIsAuthLoading();
@@ -44,16 +48,20 @@ export default function CalendarWidget() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const { data: tripsData = [] } = useGetUserTrips(userId);
 
-  const trips: Trip[] = tripsData.map((trip) => ({
-    ...trip,
-    id: String(trip.id),
-  }));
+  const trips: Trip[] = useMemo(
+    () =>
+      tripsData.map((trip) => ({
+        ...trip,
+        id: String(trip.id),
+      })),
+    [tripsData],
+  );
 
   // Precompute date-to-trips map for O(1) lookups instead of filtering on every render
   const tripsMap = useMemo(() => {
     const map = new Map<string, Trip[]>();
     for (const day of days) {
-      const dateKey = day.date.toISOString().split("T")[0]; // YYYY-MM-DD
+      const dateKey = getLocalDateKey(day.date);
       const tripsForDay = trips.filter((trip) => {
         const tripStart = new Date(trip.start_date);
         const tripEnd = new Date(trip.end_date);
@@ -115,13 +123,13 @@ export default function CalendarWidget() {
           </div>
           <div className="days-grid">
             {days.map((day, index) => {
-              const dateKey = day.date.toISOString().split("T")[0];
+              const dateKey = getLocalDateKey(day.date);
               const tripsForDay = tripsMap.get(dateKey) || [];
               return (
                 <div
                   role="button"
                   tabIndex={0}
-                  key={`${day.date.toISOString().split("T")[0]}-${index}`}
+                  key={`${getLocalDateKey(day.date)}-${index}`}
                   className={`day ${
                     day.isCurrentMonth ? "day-current" : "day-other"
                   } ${day.isToday ? "day-today" : ""}`}

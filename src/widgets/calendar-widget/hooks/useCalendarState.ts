@@ -6,17 +6,15 @@ export function useCalendarState() {
   const [viewType, setViewType] = useState<ViewType>("month");
 
   const goToPreviousMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() - 1),
-    );
+    setCurrentDate((prevDate) => {
+      return new Date(prevDate.getFullYear(), prevDate.getMonth() - 1);
+    });
   };
-
   const goToNextMonth = () => {
-    setCurrentDate(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1),
-    );
+    setCurrentDate((prevDate) => {
+      return new Date(prevDate.getFullYear(), prevDate.getMonth() + 1);
+    });
   };
-
   const goToToday = () => {
     setCurrentDate(new Date());
   };
