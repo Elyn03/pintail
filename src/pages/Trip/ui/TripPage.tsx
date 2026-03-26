@@ -2,6 +2,7 @@ import {Navigate, useParams} from "react-router-dom";
 import "../styles/TripPage.css"
 import {useGetTripById} from "@/shared/api/queries.ts";
 import moment from "moment";
+import CustomButton from "@/shared/components/ui/CustomButton.tsx";
 
 export default function TripPage() {
   const { id } = useParams<{ id: string }>();
@@ -23,8 +24,18 @@ export default function TripPage() {
   return (
     <main className="main-content trip-page">
       <header className="trip-page-header">
-        <h1 className="trip-page-title">{trip.title}</h1>
-        <p className="trip-page-badge">Trip #{id}</p>
+        <div className="trip-page-title">
+          <h1>{trip.title}</h1>
+          <p className="trip-page-badge">Trip #{id}</p>
+        </div>
+        <CustomButton
+          variant="contained"
+          color="secondary"
+          size="small"
+          navigateLink={"/trip/new"}
+        >
+          edit
+        </CustomButton>
       </header>
 
       <section className="trip-bento-grid">
