@@ -11,7 +11,6 @@ interface CustomButtonProps
   variant?: ButtonVariant;
   color?: ButtonColor;
   size?: ButtonSize;
-  fullWidth?: boolean;
   loading?: boolean;
   navigateLink?: string;
 }
@@ -22,7 +21,6 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
       variant = "contained",
       color = "primary",
       size = "medium",
-      fullWidth = false,
       loading = false,
       navigateLink = "",
       children,
@@ -51,7 +49,6 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
       `${variant}`,
       `${color}`,
       `${size}`,
-      fullWidth && "full-width",
       loading && "loading",
       disabled && "disabled",
     ].filter(Boolean).join(" ");

@@ -75,8 +75,7 @@ export default function TripList({ user_id }: TripListProps) {
         <div className="actions">
           <FormField
             id="search"
-            name=""
-            label=""
+            name="search"
             placeholder="Search for a trip..."
             value={search}
             onChange={(e) => handleSearchChange(e.target.value)}

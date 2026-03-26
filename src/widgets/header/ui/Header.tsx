@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from "react"; // ✅ Pas de useEffect
+import {useState, useCallback, useEffect} from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthStore } from "@/app/store/useUserStore";
 import { useLogout } from "@/features/auth/model/useLogout";
@@ -90,7 +90,7 @@ export default function Header() {
               <NavLink
                 to="/calendar"
                 className={({ isActive }) => `mobile-link ${isActive ? "active" : ""}`}
-                onClick={handleLogoutClick} // Ferme + déconnecte
+                onClick={closeMenuOnNavigation}
               >
                 Calendar
               </NavLink>

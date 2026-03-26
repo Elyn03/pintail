@@ -5,15 +5,20 @@ import moment from "moment";
 
 export default function TripPage() {
   const { id } = useParams<{ id: string }>();
-  const { data: trip, isLoading, error } = useGetTripById(id??"")
+  const { data: trip, isLoading, error } = useGetTripById(id ?? "")
 
-  if (!id || !trip) {
+  if (!id) {
     return <Navigate to="/" replace />
   }
 
   if (isLoading || error) {
     return
   }
+
+  if (!trip) {
+    return <Navigate to="/" replace />
+  }
+
 
   return (
     <main className="main-content trip-page">
@@ -25,7 +30,7 @@ export default function TripPage() {
       <section className="trip-bento-grid">
         <article className="trip-bento-card trip-bento-main">
           <div className="trip-bento-header">
-            <h2>Résumé du voyage</h2>
+            <h2>Trip Summary</h2>
           </div>
           <p className="trip-main-description">
             {trip.description}
@@ -35,12 +40,15 @@ export default function TripPage() {
             <div>
               <span className="trip-label">Dates</span>
               <p className="trip-value">
-                10 mai 2025 — 18 mai 2025
+                {moment(trip.start_date).format("LL")} — {moment(trip.end_date).format("LL")}
               </p>
             </div>
             <div>
-              <span className="trip-label">Durée</span>
-              <p className="trip-value">8 jours</p>
+              <span className="trip-label">Duration</span>
+              <p className="trip-value">{moment(trip.end_date).diff(
+                moment(trip.start_date),
+                "days"
+              )}</p>
             </div>
           </div>
         </article>
@@ -51,7 +59,7 @@ export default function TripPage() {
           </div>
 
           <div className="trip-budget-main">
-            <span className="trip-label">Budget total</span>
+            <span className="trip-label">Total budget</span>
             <p className="trip-budget-amount">
               {trip.budget_max}€
             </p>
@@ -63,15 +71,15 @@ export default function TripPage() {
               <p className="trip-value">600€</p>
             </div>
             <div>
-              <span className="trip-label">Hébergement</span>
+              <span className="trip-label">Accommodation</span>
               <p className="trip-value">700€</p>
             </div>
             <div>
-              <span className="trip-label">Activités</span>
+              <span className="trip-label">Activities</span>
               <p className="trip-value">300€</p>
             </div>
             <div>
-              <span className="trip-label">Autres</span>
+              <span className="trip-label">Others</span>
               <p className="trip-value">200€</p>
             </div>
           </div>
@@ -84,20 +92,13 @@ export default function TripPage() {
 
           <div className="trip-dates-row">
             <div className="trip-date-field">
-              <span className="trip-label">Départ</span>
+              <span className="trip-label">Departure</span>
               <div className="trip-input">{moment(trip.start_date).format("DD/MM/YYYY")}</div>
             </div>
             <div className="trip-date-field">
-              <span className="trip-label">Retour</span>
+              <span className="trip-label">Return</span>
               <div className="trip-input">{moment(trip.end_date).format("DD/MM/YYYY")}</div>
             </div>
-          </div>
-
-          <div className="trip-mini-calendar-placeholder">
-            <span className="trip-label">Aperçu</span>
-            <p className="trip-value">
-              Sélectionne une plage de dates sur le calendrier.
-            </p>
           </div>
         </article>
 
@@ -106,15 +107,9 @@ export default function TripPage() {
             <h2>Checklist & notes</h2>
           </div>
 
-          <ul className="trip-notes-listst">
-            <li>Réserver l’hébergement</li>
-            <li>Préparer la eSIM / data</li>
-            <li>Ajoutez vos idées d’activités</li>
-          </ul>
-
           <textarea
             className="trip-notes-input"
-            placeholder="Notes personnelles pour ce voyage..."
+            placeholder="Personal notes for this trip..."
           />
         </article>
       </section>

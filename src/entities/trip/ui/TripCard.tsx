@@ -1,6 +1,5 @@
 import "@/entities/trip/styles/TripCard.css";
 import type {TripDto} from "@/entities/trip/trip-schema.ts";
-import "../styles/TripCard.css"
 import CustomButton from "@/shared/components/ui/CustomButton.tsx";
 
 interface TripCardProps {

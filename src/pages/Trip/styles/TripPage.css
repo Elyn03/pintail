@@ -137,30 +137,6 @@
     padding: 0.45rem 0.6rem;
     font-size: 0.85rem;
     outline: none;
-    transition: border-color 0.15s ease-out, background 0.15s ease-out,
-}
-
-.trip-mini-calendar-placeholder {
-    margin-top: 0.7rem;
-    padding: 0.6rem 0.7rem;
-    border-radius: 8px;
-    background: var(--accent-gold-hover);
-}
-
-.trip-notes-list {
-    list-style: none;
-    padding: 0;
-    margin: 0.2rem 0 0.6rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem 0.7rem;
-    font-size: 0.8rem;
-    color: #e5e7eb;
-}
-
-.trip-notes-list li::before {
-    content: "•";
-    margin-right: 0.35rem;
 }
 
 .trip-notes-input {
@@ -174,13 +150,8 @@
     padding: 0.6rem 0.7rem;
     font-size: 0.85rem;
     outline: none;
-    transition: border-color 0.15s ease-out, background 0.15s ease-out,
-    box-shadow 0.15s ease-out;
 }
 
-.trip-notes-input::placeholder {
-    color: #6b7280;
-}
 
 @media (max-width: 900px) {
     .trip-bento-grid {
