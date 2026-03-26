@@ -1,10 +1,16 @@
-import { supabase } from './supabase';
-import type { TripDto } from '@/entities/trip/trip-schema';
+import { supabase } from "./supabase";
+import type { TripDto } from "@/entities/trip/trip-schema";
 
-export const createTrip = async (tripData: Omit<TripDto, 'id' | 'created_at'>) => {
+export const createTrip = async (
+  tripData: Omit<TripDto, "id" | "created_at" | "user_id">,
+) => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error("User not authenticated");
   const { data, error } = await supabase
-    .from('Trip')
-    .insert([tripData])
+    .from("Trip")
+    .insert([{ ...tripData, user_id: user.id }])
     .select()
     .single();
 
@@ -17,10 +23,10 @@ export const createTrip = async (tripData: Omit<TripDto, 'id' | 'created_at'>) =
 
 export const getUserTrips = async (userId: string): Promise<TripDto[]> => {
   const { data, error } = await supabase
-    .from('Trip')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false });
+    .from("Trip")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to fetch trips: ${error.message}`);
@@ -31,9 +37,9 @@ export const getUserTrips = async (userId: string): Promise<TripDto[]> => {
 
 export const getTripById = async (tripId: string): Promise<TripDto> => {
   const { data, error } = await supabase
-    .from('Trip')
-    .select('*')
-    .eq('id', tripId)
+    .from("Trip")
+    .select("*")
+    .eq("id", tripId)
     .single();
 
   if (error) {
@@ -45,9 +51,9 @@ export const getTripById = async (tripId: string): Promise<TripDto> => {
 
 export const updateTrip = async (tripId: string, updates: Partial<TripDto>) => {
   const { data, error } = await supabase
-    .from('Trip')
+    .from("Trip")
     .update(updates)
-    .eq('id', tripId)
+    .eq("id", tripId)
     .select()
     .single();
 
@@ -59,10 +65,7 @@ export const updateTrip = async (tripId: string, updates: Partial<TripDto>) => {
 };
 
 export const deleteTrip = async (tripId: string): Promise<void> => {
-  const { error } = await supabase
-    .from('Trip')
-    .delete()
-    .eq('id', tripId);
+  const { error } = await supabase.from("Trip").delete().eq("id", tripId);
 
   if (error) {
     throw new Error(`Failed to delete trip: ${error.message}`);
