@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FormField from "@/shared/components/ui/FormField.tsx";
 import { useCreateTrip } from "@/shared/api/queries.ts";
 import { useAuthStore } from "@/app/store/useUserStore.ts";
-
+import "@/pages/Calendar/styles/SimpleTripForm.css";
 interface SimpleTripFormProps {
   initialDate?: Date;
   onClose?: () => void;

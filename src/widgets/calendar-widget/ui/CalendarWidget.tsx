@@ -1,5 +1,5 @@
 import "../styles/calendar.css";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCalendarState } from "../hooks/useCalendarState";
 import { useCalendarDays } from "../hooks/useCalendarDays";
@@ -7,7 +7,7 @@ import type { Trip } from "@/entities/trip/types";
 import Modal from "@/shared/components/ui/Modal";
 import SimpleTripForm from "@/widgets/trip-form-card/ui/SimpleTripForm";
 import { useGetUserTrips } from "@/shared/api/queries";
-import { useAuthStore } from "@/app/store/useUserStore";
+import { useUserId, useIsAuthLoading } from "@/app/store/useUserStore";
 import { ErrorBoundary } from "@/shared/components/ui/ErrorBoundary";
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -27,21 +27,22 @@ const MONTHS = [
 ];
 
 export default function CalendarWidget() {
-  const userId = useAuthStore((state) => state.user?.id);
+  const userId = useUserId();
+  const isLoading = useIsAuthLoading();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && !userId) {
+      navigate("/login");
+    }
+  }, [userId, isLoading, navigate]);
+
   const { currentDate, goToPreviousMonth, goToNextMonth, goToToday } =
     useCalendarState();
   const days = useCalendarDays(currentDate);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  if (!userId) {
-    return <div>Please log in to view your calendar.</div>;
-  }
   const { data: tripsData = [] } = useGetUserTrips(userId);
-
-  if (!userId) {
-    return <div>Please log in to view your calendar.</div>;
-  }
 
   const trips: Trip[] = tripsData.map((trip) => ({
     ...trip,

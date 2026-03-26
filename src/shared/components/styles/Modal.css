@@ -86,3 +86,27 @@
 .modal-body {
   padding: 20px;
 }
+
+.modal-button.primary {
+  background-color: var(--primary-color);
+  color: white;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.modal-button.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.modal-button.secondary {
+  background-color: var(--accent-iron-color);
+  color: white;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.modal-button.secondary:hover {
+  background-color: var(--accent-iron-hover);
+}

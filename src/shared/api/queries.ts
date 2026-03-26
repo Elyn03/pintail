@@ -45,10 +45,10 @@ export const useCreateTrip = () => {
 /**
  * Hook pour récupérer tous les trips d'un utilisateur
  */
-export const useGetUserTrips = (userId: string) => {
+export const useGetUserTrips = (userId: string | undefined) => {
   return useQuery({
     queryKey: queryKeys.trips.list(userId),
-    queryFn: () => getUserTrips(userId),
+    queryFn: () => getUserTrips(userId as string),
     staleTime: 1000 * 60 * 5,
     retry: 2,
     throwOnError: false,
