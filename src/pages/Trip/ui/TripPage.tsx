@@ -1,12 +1,13 @@
 import {Navigate, useParams} from "react-router-dom";
 import "../styles/TripPage.css"
-import {useGetTripById} from "@/shared/api/queries.ts";
+import {useDeleteTripById, useGetTripById} from "@/shared/api/queries.ts";
 import moment from "moment";
 import CustomButton from "@/shared/components/ui/CustomButton.tsx";
 
 export default function TripPage() {
   const { id } = useParams<{ id: string }>();
   const { data: trip, isLoading, error } = useGetTripById(id ?? "")
+  const deleteTrip = useDeleteTripById(id ?? "")
 
   if (!id) {
     return <Navigate to="/" replace />
@@ -28,14 +29,25 @@ export default function TripPage() {
           <h1>{trip.title}</h1>
           <p className="trip-page-badge">Trip #{id}</p>
         </div>
-        <CustomButton
-          variant="contained"
-          color="secondary"
-          size="small"
-          navigateLink={"/trip/new"}
-        >
-          edit
-        </CustomButton>
+        <div className="trip-page-actions">
+          <CustomButton
+            variant="contained"
+            color="secondary"
+            size="medium"
+            navigateLink={"/trip/edit/" + trip.id}
+          >
+            🖍
+          </CustomButton>
+
+          <CustomButton
+            variant="contained"
+            color="secondary"
+            size="medium"
+            onClick={() => deleteTrip.mutate()}
+          >
+            🗑
+          </CustomButton>
+        </div>
       </header>
 
       <section className="trip-bento-grid">

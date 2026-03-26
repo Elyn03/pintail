@@ -8,7 +8,7 @@ interface FormFieldProps {
   placeholder?: string;
   required?: boolean;
   error?: string;
-  value?: string;
+  value?: string | number ;
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 

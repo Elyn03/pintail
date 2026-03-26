@@ -9,6 +9,7 @@ import {
   deleteTrip,
 } from "./tripsApi";
 import type { TripDto } from "@/entities/trip/trip-schema";
+import {useNavigate} from "react-router-dom";
 
 /**
  * Hook pour récupérer les pays en tendance
@@ -35,7 +36,7 @@ export const useCreateTrip = () => {
     onSuccess: (newTrip) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.trips.list() });
       queryClient.setQueryData(
-        queryKeys.trips.detail(newTrip.id + ""),
+        queryKeys.trips.detail(newTrip.id.toString()),
         newTrip,
       );
     },
@@ -86,7 +87,7 @@ export const useUpdateTrip = () => {
     onSuccess: (updatedTrip) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.trips.list() });
       queryClient.setQueryData(
-        queryKeys.trips.detail(updatedTrip.id + ""),
+        queryKeys.trips.detail(updatedTrip.id.toString()),
         updatedTrip,
       );
     },
@@ -96,13 +97,19 @@ export const useUpdateTrip = () => {
 /**
  * Hook pour supprimer un trip
  */
-export const useDeleteTrip = () => {
+export const useDeleteTripById = (tripId: string) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: deleteTrip,
+    mutationFn: () => deleteTrip(tripId),
     onSuccess: () => {
+      queryClient.removeQueries({ queryKey: queryKeys.trips.detail(tripId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.trips.all });
+      navigate("/", { replace: true });
+    },
+    onError: (error) => {
+      console.error("Error deleting:", error);
     },
   });
 };

@@ -1,24 +1,39 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import FormField from "@/shared/components/ui/FormField.tsx";
-import { useCreateTrip } from "@/shared/api/queries.ts";
+import {useCreateTrip, useUpdateTrip} from "@/shared/api/queries.ts";
 import { useAuthStore } from "@/app/store/useUserStore.ts";
+import moment from "moment";
 
-export default function TripFormCard() {
+interface TripFormProps {
+  isEditing?: boolean;
+  initialData?: Partial<{
+    trip_id: number;
+    title: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    budget_target: number;
+    budget_max: number;
+  }>;
+}
+
+export default function TripFormCard({ isEditing, initialData}: TripFormProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { session } = useAuthStore();
   const createTripMutation = useCreateTrip();
+  const editTripMutation = useUpdateTrip();
 
-  const dateParam = searchParams.get("date") || "";
+  const dateParam = searchParams.get("date") || initialData && moment(initialData.start_date).format("YYYY-MM-DD") || "";
 
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
+    title: initialData?.title ?? "",
+    description: initialData?.description ?? "",
     start_date: dateParam,
-    end_date: "",
-    budget_target: "",
-    budget_max: "",
+    end_date: initialData ? moment(initialData.end_date).format("YYYY-MM-DD") : "",
+    budget_target: initialData?.budget_target ?? 0,
+    budget_max: initialData?.budget_max ?? 0,
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -44,17 +59,35 @@ export default function TripFormCard() {
     }
 
     try {
-      const newTrip = await createTripMutation.mutateAsync({
-        title: formData.title,
-        description: formData.description,
-        start_date: formData.start_date,
-        end_date: formData.end_date,
-        budget_target: parseFloat(formData.budget_target) || 0,
-        budget_max: parseFloat(formData.budget_max) || 0,
-        expenses: 0,
-      });
 
-      navigate(`/trip/${newTrip.id}`);
+      if (isEditing && initialData?.trip_id) {
+        const editTrip = await editTripMutation.mutateAsync({
+          tripId: initialData.trip_id.toString(),
+          updates: {
+            title: formData.title,
+            description: formData.description,
+            start_date: formData.start_date,
+            end_date: formData.end_date,
+            budget_target: parseFloat(formData.budget_target.toString()) || 0,
+            budget_max: parseFloat(formData.budget_max.toString()) || 0,
+            expenses: 0,
+          }
+        });
+
+        navigate(`/trip/${editTrip.id}`);
+      } else {
+        const newTrip = await createTripMutation.mutateAsync({
+          title: formData.title,
+          description: formData.description,
+          start_date: formData.start_date,
+          end_date: formData.end_date,
+          budget_target: parseFloat(formData.budget_target.toString()) || 0,
+          budget_max: parseFloat(formData.budget_max.toString()) || 0,
+          expenses: 0,
+        });
+
+        navigate(`/trip/${newTrip.id}`);
+      }
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to create trip";
@@ -63,6 +96,29 @@ export default function TripFormCard() {
     }
   };
 
+  const renderValidationAction = () => {
+    if (isEditing) {
+      return (
+        <button
+          type="submit"
+          className="login-button"
+          disabled={editTripMutation.isPending}
+        >
+          {editTripMutation.isPending ? "Editing..." : "Edit Trip"}
+        </button>
+      )
+    }
+
+    return (
+      <button
+        type="submit"
+        className="login-button"
+        disabled={createTripMutation.isPending}
+      >
+        {createTripMutation.isPending ? "Creating..." : "Create Trip"}
+      </button>
+    )
+  }
   return (
     <div className="form-card">
       <div className="form-header">
@@ -153,13 +209,7 @@ export default function TripFormCard() {
           >
             Cancel
           </button>
-          <button
-            type="submit"
-            className="login-button"
-            disabled={createTripMutation.isPending}
-          >
-            {createTripMutation.isPending ? "Creating..." : "Create Trip"}
-          </button>
+          {renderValidationAction()}
         </div>
       </form>
     </div>
