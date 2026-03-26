@@ -1,5 +1,5 @@
 import "../styles/calendar.css";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCalendarState } from "../hooks/useCalendarState";
 import { useCalendarDays } from "../hooks/useCalendarDays";
@@ -26,30 +26,18 @@ const MONTHS = [
   "December",
 ];
 
-// Fonction pour vérifier si un trip couvre une date donnée
-const getTripsForDate = (date: Date, trips: Trip[]): Trip[] => {
-  return trips.filter((trip) => {
-    const tripStart = new Date(trip.start_date);
-    const tripEnd = new Date(trip.end_date);
-    const dayToCheck = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-    );
-
-    return dayToCheck >= tripStart && dayToCheck <= tripEnd;
-  });
-};
-
 export default function CalendarWidget() {
   const userId = useAuthStore((state) => state.user?.id);
   const navigate = useNavigate();
   const { currentDate, goToPreviousMonth, goToNextMonth, goToToday } =
     useCalendarState();
   const days = useCalendarDays(currentDate);
-  const { data: tripsData = [] } = useGetUserTrips(userId || "");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  if (!userId) {
+    return <div>Please log in to view your calendar.</div>;
+  }
+  const { data: tripsData = [] } = useGetUserTrips(userId);
 
   if (!userId) {
     return <div>Please log in to view your calendar.</div>;
@@ -59,6 +47,26 @@ export default function CalendarWidget() {
     ...trip,
     id: String(trip.id),
   }));
+
+  // Precompute date-to-trips map for O(1) lookups instead of filtering on every render
+  const tripsMap = useMemo(() => {
+    const map = new Map<string, Trip[]>();
+    for (const day of days) {
+      const dateKey = day.date.toISOString().split("T")[0]; // YYYY-MM-DD
+      const tripsForDay = trips.filter((trip) => {
+        const tripStart = new Date(trip.start_date);
+        const tripEnd = new Date(trip.end_date);
+        const dayToCheck = new Date(
+          day.date.getFullYear(),
+          day.date.getMonth(),
+          day.date.getDate(),
+        );
+        return dayToCheck >= tripStart && dayToCheck <= tripEnd;
+      });
+      map.set(dateKey, tripsForDay);
+    }
+    return map;
+  }, [trips, days]);
 
   const monthYear = `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
 
@@ -106,14 +114,21 @@ export default function CalendarWidget() {
           </div>
           <div className="days-grid">
             {days.map((day, index) => {
-              const tripsForDay = getTripsForDate(day.date, trips);
+              const dateKey = day.date.toISOString().split("T")[0];
+              const tripsForDay = tripsMap.get(dateKey) || [];
               return (
                 <div
-                  key={index}
+                  role="button"
+                  tabIndex={0}
+                  key={`${day.date.toISOString().split("T")[0]}-${index}`}
                   className={`day ${
                     day.isCurrentMonth ? "day-current" : "day-other"
                   } ${day.isToday ? "day-today" : ""}`}
-                  onDoubleClick={() => handleDayDoubleClick(day.date)}
+                  onDoubleClick={
+                    day.isCurrentMonth
+                      ? () => handleDayDoubleClick(day.date)
+                      : undefined
+                  }
                 >
                   <div className="day-number">{day.date.getDate()}</div>
                   <div className="day-trips">

@@ -98,11 +98,13 @@ export class ErrorBoundary extends React.Component<Props, State> {
                     wordBreak: "break-word",
                   }}
                 >
-                  {this.state.error?.message || "Erreur inconnue"}
+                  {import.meta.env.DEV
+                    ? this.state.error?.message || "Erreur inconnue"
+                    : "Une erreur inattendue s'est produite. Veuillez réessayer ou contacter le support."}
                 </p>
               </div>
 
-              {this.state.error?.stack && (
+              {import.meta.env.DEV && this.state.error?.stack && (
                 <details
                   style={{
                     marginBottom: "20px",

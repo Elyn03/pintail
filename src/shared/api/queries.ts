@@ -1,8 +1,14 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getTrendingCountries } from './trendsApi';
-import { queryKeys } from './queryKeys';
-import { createTrip, getUserTrips, getTripById, updateTrip, deleteTrip } from './tripsApi';
-import type { TripDto } from '@/entities/trip/trip-schema';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getTrendingCountries } from "./trendsApi";
+import { queryKeys } from "./queryKeys";
+import {
+  createTrip,
+  getUserTrips,
+  getTripById,
+  updateTrip,
+  deleteTrip,
+} from "./tripsApi";
+import type { TripDto } from "@/entities/trip/trip-schema";
 
 /**
  * Hook pour récupérer les pays en tendance
@@ -28,7 +34,10 @@ export const useCreateTrip = () => {
     mutationFn: createTrip,
     onSuccess: (newTrip) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.trips.list() });
-      queryClient.setQueryData(queryKeys.trips.detail(newTrip.id + ""), newTrip);
+      queryClient.setQueryData(
+        queryKeys.trips.detail(newTrip.id + ""),
+        newTrip,
+      );
     },
   });
 };
@@ -38,11 +47,12 @@ export const useCreateTrip = () => {
  */
 export const useGetUserTrips = (userId: string) => {
   return useQuery({
-    queryKey: queryKeys.trips.list(),
+    queryKey: queryKeys.trips.list(userId),
     queryFn: () => getUserTrips(userId),
     staleTime: 1000 * 60 * 5,
     retry: 2,
     throwOnError: false,
+    enabled: !!userId,
   });
 };
 
@@ -66,11 +76,19 @@ export const useUpdateTrip = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ tripId, updates }: { tripId: string; updates: Partial<TripDto> }) =>
-      updateTrip(tripId, updates),
+    mutationFn: ({
+      tripId,
+      updates,
+    }: {
+      tripId: string;
+      updates: Partial<TripDto>;
+    }) => updateTrip(tripId, updates),
     onSuccess: (updatedTrip) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.trips.list() });
-      queryClient.setQueryData(queryKeys.trips.detail(updatedTrip.id + ""), updatedTrip);
+      queryClient.setQueryData(
+        queryKeys.trips.detail(updatedTrip.id + ""),
+        updatedTrip,
+      );
     },
   });
 };
@@ -88,4 +106,3 @@ export const useDeleteTrip = () => {
     },
   });
 };
-
