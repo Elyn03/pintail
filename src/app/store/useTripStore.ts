@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type {TripDto} from "@/entities/trip/trip-schema.ts";
+import type {TripDto} from "@/entities/trip/model/trip-schema.ts";
 
 interface TripState {
   trips: TripDto[];

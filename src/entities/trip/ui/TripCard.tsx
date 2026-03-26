@@ -1,11 +1,11 @@
 import "@/entities/trip/styles/TripCard.css";
-import type { TripDto } from "@/entities/trip/trip-schema.ts";
 import CustomButton from "@/shared/components/ui/CustomButton.tsx";
 import { useDeleteTripById } from "@/shared/api/queries.ts";
 import {
   useFavorites,
   useToggleFavorite,
 } from "@/entities/trip/model/useFavorites";
+import type {TripDto} from "@/entities/trip/model/trip-schema.ts";
 
 interface TripCardProps {
   trip: TripDto;
