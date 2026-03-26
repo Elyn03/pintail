@@ -1,7 +1,11 @@
-export default function HomePage() {
+import CalendarWidget from "@/widgets/calendar-widget/ui/CalendarWidget";
+
+export default function CalendarPage() {
   return (
     <>
-      <main className="main-content"></main>
+      <main className="main-content">
+        <CalendarWidget />
+      </main>
     </>
   );
 }

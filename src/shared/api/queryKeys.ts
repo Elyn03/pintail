@@ -19,7 +19,7 @@ export const queryKeys = {
 
   trips: {
     all: ['trips'] as const,
-    list: () => [...queryKeys.trips.all, 'list'] as const,
+    list: (userId?: string) => userId ? [...queryKeys.trips.all, 'list', userId] as const : [...queryKeys.trips.all, 'list'] as const,
     detail: (id: string) => [...queryKeys.trips.all, 'detail', id] as const,
   },
 

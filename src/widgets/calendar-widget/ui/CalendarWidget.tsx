@@ -1,0 +1,178 @@
+import "../styles/calendar.css";
+import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCalendarState } from "../hooks/useCalendarState";
+import { useCalendarDays } from "../hooks/useCalendarDays";
+import type { Trip } from "@/entities/trip/types";
+import Modal from "@/shared/components/ui/Modal";
+import SimpleTripForm from "@/widgets/trip-form-card/ui/SimpleTripForm";
+import { useGetUserTrips } from "@/shared/api/queries";
+import { useUserId, useIsAuthLoading } from "@/app/store/useUserStore";
+import { ErrorBoundary } from "@/shared/components/ui/ErrorBoundary";
+
+const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+// Generate a consistent local date key (YYYY-MM-DD) using local timezone
+const getLocalDateKey = (date: Date): string =>
+  date.toLocaleDateString("fr-FR");
+
+export default function CalendarWidget() {
+  const userId = useUserId();
+  const isLoading = useIsAuthLoading();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoading && !userId) {
+      navigate("/login");
+    }
+  }, [userId, isLoading, navigate]);
+
+  const { currentDate, goToPreviousMonth, goToNextMonth, goToToday } =
+    useCalendarState();
+  const days = useCalendarDays(currentDate);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const { data: tripsData = [] } = useGetUserTrips(userId);
+
+  const trips: Trip[] = useMemo(
+    () =>
+      tripsData.map((trip) => ({
+        ...trip,
+        id: String(trip.id),
+      })),
+    [tripsData],
+  );
+
+  // Precompute date-to-trips map for O(1) lookups instead of filtering on every render
+  const tripsMap = useMemo(() => {
+    const map = new Map<string, Trip[]>();
+    for (const day of days) {
+      const dateKey = getLocalDateKey(day.date);
+      const tripsForDay = trips.filter((trip) => {
+        const tripStart = new Date(trip.start_date);
+        const tripEnd = new Date(trip.end_date);
+        const dayToCheck = new Date(
+          day.date.getFullYear(),
+          day.date.getMonth(),
+          day.date.getDate(),
+        );
+        return dayToCheck >= tripStart && dayToCheck <= tripEnd;
+      });
+      map.set(dateKey, tripsForDay);
+    }
+    return map;
+  }, [trips, days]);
+
+  const monthYear = `${MONTHS[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+  const handleDayDoubleClick = (date: Date) => {
+    setSelectedDate(date);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDate(undefined);
+  };
+
+  return (
+    <ErrorBoundary>
+      <div className="calendar">
+        <div className="calendar-header">
+          <h2 className="title">{monthYear}</h2>
+          <div className="calendar-navigation">
+            <button
+              className="button create-trip-btn"
+              onClick={() => navigate("/trip/new")}
+            >
+              Create Trip
+            </button>
+            <button className="button" onClick={goToPreviousMonth}>
+              ← Previous
+            </button>
+            <button className="button today-btn" onClick={goToToday}>
+              Today
+            </button>
+            <button className="button" onClick={goToNextMonth}>
+              Next →
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div className="weekdays">
+            {WEEKDAYS.map((day) => (
+              <div key={day} className="weekday">
+                {day}
+              </div>
+            ))}
+          </div>
+          <div className="days-grid">
+            {days.map((day, index) => {
+              const dateKey = getLocalDateKey(day.date);
+              const tripsForDay = tripsMap.get(dateKey) || [];
+              return (
+                <div
+                  role="button"
+                  tabIndex={0}
+                  key={`${getLocalDateKey(day.date)}-${index}`}
+                  className={`day ${
+                    day.isCurrentMonth ? "day-current" : "day-other"
+                  } ${day.isToday ? "day-today" : ""}`}
+                  onDoubleClick={
+                    day.isCurrentMonth
+                      ? () => handleDayDoubleClick(day.date)
+                      : undefined
+                  }
+                >
+                  <div className="day-number">{day.date.getDate()}</div>
+                  <div className="day-trips">
+                    {tripsForDay.map((trip) => (
+                      <div
+                        key={trip.id}
+                        className="trip-tag"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/trip/${trip.id}`);
+                        }}
+                      >
+                        {trip.title}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <Modal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          title="Add a new trip"
+        >
+          {selectedDate && (
+            <SimpleTripForm
+              initialDate={selectedDate}
+              onClose={handleCloseModal}
+            />
+          )}
+        </Modal>
+      </div>
+    </ErrorBoundary>
+  );
+}

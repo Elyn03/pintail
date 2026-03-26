@@ -1,0 +1,189 @@
+/* Calendar Styles */
+
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px;
+  background: var(--white);
+  border-radius: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 16px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.calendar-navigation {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--primary-color);
+  min-width: 250px;
+  text-align: center;
+}
+
+.button {
+  padding: 10px 16px;
+  border: 1px solid var(--primary-color);
+  background: var(--white);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: var(--primary-color);
+}
+
+.button:hover {
+  background: var(--grey);
+  border-color: var(--primary-hover);
+  color: var(--primary-hover);
+}
+
+.today-btn {
+  background: var(--secondary-color);
+  color: var(--white);
+  border-color: var(--secondary-color);
+  width: fit-content;
+}
+
+.today-btn:hover {
+  background: var(--secondary-active);
+  border-color: var(--secondary-active);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.weekday {
+  padding: 12px;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-align: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  /* padding: 8px; */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: var(--grey);
+  border: 1px solid transparent;
+  color: var(--primary-color);
+}
+
+.day-current {
+  background: var(--white);
+  border-color: var(--accent-camel-color);
+  color: var(--primary-color);
+}
+
+.day:hover {
+  background: var(--accent-gold-color);
+  border-color: var(--accent-camel-color);
+}
+
+.day-today {
+  background: var(--secondary-color);
+  color: var(--white);
+  border-color: var(--secondary-color);
+  font-weight: 700;
+}
+
+.day-today:hover {
+  background: var(--secondary-active);
+  border-color: var(--secondary-active);
+}
+
+.day-other {
+  color: #ccc;
+  background: transparent;
+  cursor: default;
+}
+
+.day-other:hover {
+  background: transparent;
+  border-color: transparent;
+}
+/* Styles pour l'affichage des trips */
+.day {
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
+}
+
+.day-number {
+  margin: 8px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.day-trips {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.trip-tag {
+  font-size: 11px;
+  padding: 2px 4px;
+  background: var(--secondary-color);
+  color: var(--white);
+  border-radius: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 500;
+}
+
+.day-current .trip-tag {
+  background: var(--accent-camel-color);
+}
+
+.day-today .trip-tag {
+  background: var(--accent-gold-color);
+  color: var(--primary-color);
+}
+.create-trip-btn {
+  background: var(--secondary-color);
+  color: var(--white);
+  border-color: var(--secondary-color);
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.create-trip-btn:hover {
+  background: var(--secondary-active);
+  border-color: var(--secondary-active);
+  color: var(--white);
+}
