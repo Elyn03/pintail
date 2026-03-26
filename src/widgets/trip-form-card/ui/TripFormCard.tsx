@@ -1,30 +1,35 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import FormField from "@/shared/components/ui/FormField.tsx";
 import { useCreateTrip } from "@/shared/api/queries.ts";
 import { useAuthStore } from "@/app/store/useUserStore.ts";
 
 export default function TripFormCard() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { session } = useAuthStore();
   const createTripMutation = useCreateTrip();
 
+  const dateParam = searchParams.get("date") || "";
+
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    start_date: '',
-    end_date: '',
-    budget_target: '',
-    budget_max: '',
+    title: "",
+    description: "",
+    start_date: dateParam,
+    end_date: "",
+    budget_target: "",
+    budget_max: "",
   });
 
   const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.currentTarget;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -33,8 +38,8 @@ export default function TripFormCard() {
     setError(null);
 
     if (!session?.user?.id) {
-      setError('You must be logged in to create a trip');
-      navigate('/login');
+      setError("You must be logged in to create a trip");
+      navigate("/login");
       return;
     }
 
@@ -52,9 +57,10 @@ export default function TripFormCard() {
 
       navigate(`/trip/${newTrip.id}`);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create trip';
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to create trip";
       setError(errorMessage);
-      console.error('Error creating trip:', err);
+      console.error("Error creating trip:", err);
     }
   };
 
@@ -65,11 +71,7 @@ export default function TripFormCard() {
         <p>Fill out the details below to plan your next adventure.</p>
       </div>
 
-      {error && (
-        <div className="error-message">
-          {error}
-        </div>
-      )}
+      {error && <div className="error-message">{error}</div>}
 
       <form className="form-trip" onSubmit={handleSubmit}>
         <FormField
@@ -157,7 +159,7 @@ export default function TripFormCard() {
             className="login-button"
             disabled={createTripMutation.isPending}
           >
-            {createTripMutation.isPending ? 'Creating...' : 'Create Trip'}
+            {createTripMutation.isPending ? "Creating..." : "Create Trip"}
           </button>
         </div>
       </form>
