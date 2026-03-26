@@ -65,7 +65,6 @@ export default function SimpleTripForm({
         end_date: formData.end_date,
         budget_target: 0,
         budget_max: 0,
-        user_id: session.user.id,
         expenses: 0,
       });
 
