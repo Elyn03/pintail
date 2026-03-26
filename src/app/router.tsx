@@ -5,9 +5,10 @@ import App from "./App";
 import LoginPage from "../pages/Login/ui/LoginPage";
 import { RegisterPage } from "@/pages/Login/ui/RegisterPage";
 import TripPage from "../pages/Trip/ui/TripPage.tsx";
-import {CreateTripForm} from "@/pages/CreateTripForm";
+import { ProfilePage } from "@/pages/Profile";
+import { CreateTripForm } from "@/pages/CreateTripForm";
 import ProtectedRoute from "@/shared/components/ui/ProtectedRoute.tsx";
-import {EditTripForm} from "@/pages/EditTripForm";
+import { EditTripForm } from "@/pages/EditTripForm";
 
 export const router = createBrowserRouter([
   {
@@ -16,15 +17,17 @@ export const router = createBrowserRouter([
     children: [
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
-      { element: <ProtectedRoute />,
+      {
+        element: <ProtectedRoute />,
         children: [
           { index: true, element: <HomePage /> },
           { path: "/calendar", element: <CalendarPage /> },
           { path: "/trip/:id", element: <TripPage /> },
           { path: "/trip/new", element: <CreateTripForm /> },
           { path: "/trip/edit/:id", element: <EditTripForm /> },
-        ]
-      }
+          { path: "/profile", element: <ProfilePage /> },
+        ],
+      },
     ],
   },
 ]);

@@ -1,4 +1,4 @@
-import {useState, useCallback, useEffect} from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthStore } from "@/app/store/useUserStore";
 import { useLogout } from "@/features/auth/model/useLogout";
@@ -49,12 +49,23 @@ export default function Header() {
             <>
               <NavLink
                 to="/calendar"
-                className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+                className={({ isActive }) =>
+                  `mobile-link ${isActive ? "active" : ""}`
+                }
                 onClick={closeMenuOnNavigation}
               >
-                Calendar
+                <span className="user-info">Calendar</span>
               </NavLink>
-              <span className="user-info">Welcome, {username || "User"}</span>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `mobile-link ${isActive ? "active" : ""}`
+                }
+                onClick={closeMenuOnNavigation}
+              >
+                <span className="user-info">Welcome, {username || "User"}</span>
+              </NavLink>
+
               <button onClick={handleLogoutClick} className="logout-button">
                 Logout
               </button>
@@ -62,7 +73,9 @@ export default function Header() {
           ) : (
             <NavLink
               to="/login"
-              className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+              className={({ isActive }) =>
+                `mobile-link ${isActive ? "active" : ""}`
+              }
               onClick={closeMenuOnNavigation}
             >
               Login
@@ -82,17 +95,31 @@ export default function Header() {
         </button>
       </div>
 
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`} aria-hidden={!menuOpen}>
+      <div
+        className={`mobile-menu ${menuOpen ? "open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
         <nav className="mobile-nav">
           {session ? (
             <>
               <span className="mobile-user">👤 {username || "User"}</span>
               <NavLink
                 to="/calendar"
-                className={({ isActive }) => `mobile-link ${isActive ? "active" : ""}`}
+                className={({ isActive }) =>
+                  `mobile-link ${isActive ? "active" : ""}`
+                }
                 onClick={closeMenuOnNavigation}
               >
                 Calendar
+              </NavLink>
+              <NavLink
+                to="/profile"
+                className={({ isActive }) =>
+                  `mobile-link ${isActive ? "active" : ""}`
+                }
+                onClick={closeMenuOnNavigation}
+              >
+                Profile
               </NavLink>
               <button onClick={handleLogoutClick} className="mobile-logout">
                 Logout
@@ -101,7 +128,9 @@ export default function Header() {
           ) : (
             <NavLink
               to="/login"
-              className={({ isActive }) => `mobile-link ${isActive ? "active" : ""}`}
+              className={({ isActive }) =>
+                `mobile-link ${isActive ? "active" : ""}`
+              }
               onClick={closeMenuOnNavigation}
             >
               Login

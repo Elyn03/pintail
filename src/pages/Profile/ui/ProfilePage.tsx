@@ -1,7 +1,7 @@
-import CalendarWidget from "@/widgets/calendar-widget/ui/CalendarWidget";
 import { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
 import { useNavigate } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import { ProfileWidget } from "@/widgets/profile";
 
 function ErrorFallback({
   resetErrorBoundary,
@@ -66,13 +66,11 @@ function ProfileSuspenseFallback() {
   );
 }
 
-export default function CalendarPage() {
+export default function ProfilePage() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Suspense fallback={<ProfileSuspenseFallback />}>
-        <main className="main-content">
-          <CalendarWidget />
-        </main>
+        <ProfileWidget />
       </Suspense>
     </ErrorBoundary>
   );
