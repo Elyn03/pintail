@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import FormField from "@/shared/components/ui/FormField.tsx";
 import {useCreateTrip, useUpdateTrip} from "@/shared/api/queries.ts";
-import { useAuthStore } from "@/app/store/useUserStore.ts";
 import moment from "moment";
 
 interface TripFormProps {
@@ -21,7 +20,6 @@ interface TripFormProps {
 export default function TripFormCard({ isEditing, initialData}: TripFormProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { session } = useAuthStore();
   const createTripMutation = useCreateTrip();
   const editTripMutation = useUpdateTrip();
 
@@ -52,14 +50,16 @@ export default function TripFormCard({ isEditing, initialData}: TripFormProps) {
     e.preventDefault();
     setError(null);
 
-    if (!session?.user?.id) {
-      setError("You must be logged in to create a trip");
-      navigate("/login");
-      return;
+    const start = moment(formData.start_date)
+    const end = moment(formData.end_date)
+    if (end < start) {
+      setError("End must be after start");
+      return
+    } else {
+      setError(null);
     }
 
     try {
-
       if (isEditing && initialData?.trip_id) {
         const editTrip = await editTripMutation.mutateAsync({
           tripId: initialData.trip_id.toString(),
@@ -102,7 +102,7 @@ export default function TripFormCard({ isEditing, initialData}: TripFormProps) {
         <button
           type="submit"
           className="login-button"
-          disabled={editTripMutation.isPending}
+          disabled={editTripMutation.isPending || error !== null}
         >
           {editTripMutation.isPending ? "Editing..." : "Edit Trip"}
         </button>
@@ -113,7 +113,7 @@ export default function TripFormCard({ isEditing, initialData}: TripFormProps) {
       <button
         type="submit"
         className="login-button"
-        disabled={createTripMutation.isPending}
+        disabled={createTripMutation.isPending || error !== null}
       >
         {createTripMutation.isPending ? "Creating..." : "Create Trip"}
       </button>

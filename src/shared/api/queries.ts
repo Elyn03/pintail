@@ -8,7 +8,7 @@ import {
   updateTrip,
   deleteTrip,
 } from "./tripsApi";
-import type { TripDto } from "@/entities/trip/trip-schema";
+import type { TripDto } from "@/entities/trip/model/trip-schema.ts";
 import {useNavigate} from "react-router-dom";
 
 /**

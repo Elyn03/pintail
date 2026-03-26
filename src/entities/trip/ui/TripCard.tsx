@@ -1,5 +1,5 @@
 import "@/entities/trip/styles/TripCard.css";
-import type {TripDto} from "@/entities/trip/trip-schema.ts";
+import type {TripDto} from "@/entities/trip/model/trip-schema.ts";
 import CustomButton from "@/shared/components/ui/CustomButton.tsx";
 import {useDeleteTripById} from "@/shared/api/queries.ts";
 

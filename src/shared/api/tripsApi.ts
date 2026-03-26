@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import type { TripDto } from "@/entities/trip/trip-schema";
+import type { TripDto } from "@/entities/trip/model/trip-schema.ts";
 
 export const createTrip = async (
   tripData: Omit<TripDto, "id" | "created_at" | "user_id">,

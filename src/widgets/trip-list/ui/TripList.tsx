@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useGetUserTrips } from "@/shared/api/queries.ts";
 import TripCard from "@/entities/trip/ui/TripCard";
 import { useMemo } from "react";
-import type { TripDto } from "@/entities/trip/trip-schema.ts";
+import type { TripDto } from "@/entities/trip/model/trip-schema.ts";
 import "../styles/TripList.css";
 import FormField from "@/shared/components/ui/FormField.tsx";
 import CustomButton from "@/shared/components/ui/CustomButton.tsx";
