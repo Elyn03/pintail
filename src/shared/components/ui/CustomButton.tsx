@@ -13,6 +13,7 @@ interface CustomButtonProps
   size?: ButtonSize;
   loading?: boolean;
   navigateLink?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
@@ -33,15 +34,16 @@ const CustomButton = forwardRef<HTMLButtonElement, CustomButtonProps>(
   ) => {
     const navigate = useNavigate();
 
-    const handleClick = (
-      e: React.MouseEvent<HTMLButtonElement>
-    ) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (onClick && !loading && !disabled) {
+        onClick(e);
+        return;
+      }
+
       if (navigate && !loading && !disabled) {
         navigate(navigateLink);
         return;
       }
-
-      onClick?.(e);
     };
 
     const baseClasses = [
