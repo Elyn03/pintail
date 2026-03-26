@@ -3,19 +3,19 @@
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    gap: 2rem;
     align-items: flex-start;
     overflow: visible;
     min-height: calc(100vh - 64px);
 }
 
 .trip-list-wrapper {
-    margin: 20px 0;
+    margin: 20px 10px;
     flex: 1;
     min-width: 0;
 }
 
 .sidebar {
+    margin: 0 10px;
     width: 300px;
     flex-shrink: 0;
     display: flex;
@@ -28,14 +28,21 @@
 
 @media (max-width: 900px) {
     .home-page-container {
+        padding: 1rem;
         flex-direction: column;
         min-height: auto;
+        gap: 1rem;
+    }
+
+    .trip-list-wrapper {
+        margin: 0;
+        width: 100%;
     }
 
     .sidebar {
         position: static;
         width: 100%;
-        margin-top: 2rem;
+        margin: 0;
         padding: 0;
     }
 }

@@ -1,1 +1,1 @@
-export { default as ProductList } from './styles/TripList.tsx';
+export { default as TripList } from './ui/TripList.tsx';

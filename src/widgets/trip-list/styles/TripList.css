@@ -1,0 +1,107 @@
+.trip-list {
+    padding: 1rem;
+    width: 100%;
+    background-color: var(--white);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.trip-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.actions .form-group input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary-color);
+}
+
+.btn-add {
+    color: var(--white);
+    background: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition: background 0.18s, transform 0.12s;
+    white-space: nowrap;
+}
+
+.btn-add:hover {
+    color: var(--primary-color);
+    background: var(--white);
+    border: 1px solid var(--primary-color);
+}
+
+.btn-add:active {
+    transform: translateY(0);
+}
+
+.trip-list-content {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.empty-state {
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.loading,
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem  1rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    gap: 0.5rem;
+}
+
+.loading {
+    color: var(--primary-color);
+    background: var(--white);
+}
+
+.error {
+    color: #c0392b;
+    background: #fdf2f2;
+}
+
+@media (max-width: 520px) {
+    .trip-list {
+        padding: 1.25rem;
+    }
+
+    .trip-list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .trip-list-header h2 {
+        font-size: 1.2rem;
+    }
+
+}
