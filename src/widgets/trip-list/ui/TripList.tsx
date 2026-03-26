@@ -57,7 +57,7 @@ export default function TripList({ user_id }: TripListProps) {
       <div className="trip-list-content">
         {filteredTrips && filteredTrips.length > 0 ? (
           filteredTrips.map((trip: TripDto) => (
-            <TripCard key={trip.id} trip={trip}/>
+            <TripCard trip={trip}/>
           ))
         ) : (
           <p className="empty-state">
